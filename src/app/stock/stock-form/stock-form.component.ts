@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Stock } from '../stock-mange/stock-mange.component';
+import {Stock, StockService} from '../stock.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-stock-form',
@@ -10,10 +11,21 @@ export class StockFormComponent implements OnInit {
 
   stock: Stock;
 
-  constructor() { }
+  constructor(private routeInfo: ActivatedRoute, private stockservice: StockService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    this.stock = new Stock(1, '第一支股票', 1.99, 1.5, '這是第一只測試股票', ['IT', '互聯網']);
+    const stockId = this.routeInfo.snapshot.params['id'];
+    this.stock = this.stockservice.getstock(stockId);
+  }
+
+  cancel()　{
+    this.router.navigateByUrl('/stock');
+  }
+
+  save() {
+    this.router.navigateByUrl('/stock');
   }
 
 }

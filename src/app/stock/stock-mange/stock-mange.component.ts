@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
+import {Stock, StockService} from '../stock.service';
+import 'rxjs/Rx';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-stock-mange',
@@ -10,21 +13,17 @@ export class StockMangeComponent implements OnInit {
 
   private stocks: Array<Stock>;
 
-  constructor(public router: Router) { }
+  private nameFilter: FormControl = new FormControl();
+
+  private keywork: string;
+
+  constructor(public router: Router, public stockserveice: StockService) { }
 
   ngOnInit() {
-
-    this.stocks = [
-      new Stock(1, '第一支股票', 1.99, 1.5, '這是第一只測試股票', ['IT', '互聯網']),
-      new Stock(2, '第二支股票', 1.99, 2.5, '這是第二只測試股票', ['IT', '金融']),
-      new Stock(3, '第三支股票', 1.99, 3.5, '這是第三只測試股票', ['金融', '互聯網']),
-      new Stock(4, '第四支股票', 1.99, 4.5, '這是第四只測試股票', ['IT']),
-      new Stock(5, '第五支股票', 3.99, 2, '這是第五只測試股票', ['互聯網']),
-      new Stock(6, '第六支股票', 1.99, 2.5, '這是第六只測試股票', ['互联网', 'IT']),
-      new Stock(7, '第七支股票', 1.99, 3.5, '這是第七只測試股票', ['金融', '互联网']),
-      new Stock(8, '第八支股票', 1.99, 4.5, '這是第八只測試股票', ['金融', 'IT'])
-    ];
-
+    this.stocks = this.stockserveice.getstocks();
+    this.nameFilter.valueChanges
+      .debounceTime(500)
+      .subscribe(value => this.keywork = value);
   }
 
   create() {
@@ -37,13 +36,4 @@ export class StockMangeComponent implements OnInit {
 
 }
 
-export class Stock {
-  constructor(
-    public id: number,
-    public name: string,
-    public price: number,
-    public rating: number,
-    public desc: string,
-    public categories: Array<string>
-  ) {}
-}
+

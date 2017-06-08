@@ -16,11 +16,17 @@ export class StarsComponent implements OnInit {
 
   ngOnInit() {
     this.stars = [];
-    for (let i = 1; i <= Math.round(this.rating); i++ ) {
+    for (let i = 1; i <= 5; i++ ) { // Math.round(this.rating)
       this.stars.push(i > this.rating);
     }
-
   }
 
+  clickStar(index: number) {
+    this.stars = [];
+    this.rating = index + 1;
+    for (let i = 1; i <= 5; i++ ) { // Math.round(this.rating)
+      this.stars.push(i > this.rating);
+    }
+  }
 
 }

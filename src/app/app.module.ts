@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -14,6 +14,8 @@ import { StockMangeComponent } from './stock/stock-mange/stock-mange.component';
 import { StarsComponent } from './stars/stars.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StockFormComponent } from './stock/stock-form/stock-form.component';
+import {StockService} from './stock/stock.service';
+import {StockFilterPipe} from './stock/stock-filter.pipe';
 
 const routerConfig: Routes = [
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
@@ -33,15 +35,17 @@ const routerConfig: Routes = [
     StockMangeComponent,
     StarsComponent,
     DashboardComponent,
-    StockFormComponent
+    StockFormComponent,
+    StockFilterPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routerConfig)
   ],
-  providers: [],
+  providers: [StockService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
